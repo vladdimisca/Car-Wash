@@ -1,0 +1,14 @@
+version: '3.7'
+
+services:
+
+  awbd_db:
+    image: mysql:latest
+    container_name: carwash_db
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'carwash'
+      MYSQL_PASSWORD: '4321'
+      MYSQL_ROOT_PASSWORD: '4321'
+    ports:
+      - '3307:3306'
