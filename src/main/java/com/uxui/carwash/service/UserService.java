@@ -30,7 +30,7 @@ public class UserService  {
     public User create(User user) {
         checkUserNotExisting(user);
 
-        Authority authority = authorityRepository.findByRole("ROLE_GUEST");
+        Authority authority = authorityRepository.findByRole("ROLE_CLIENT");
         user.setAuthorities(Collections.singleton(authority));
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 

@@ -2,8 +2,7 @@ package com.uxui.carwash.model;
 
 import com.uxui.carwash.model.security.User;
 import com.uxui.carwash.model.validator.AppointmentTimeConstraint;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -14,6 +13,9 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "appointments")
 public class Appointment {
 

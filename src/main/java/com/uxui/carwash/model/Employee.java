@@ -1,17 +1,22 @@
 package com.uxui.carwash.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import javax.persistence.*;
-import javax.validation.constraints.*;
-
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.List;
 
 @Data
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "employees")
 public class Employee {
 

@@ -54,7 +54,7 @@ class UserServiceTest {
         Authority authority = getAuthority();
 
         when(userRepository.existsByEmailOrPhoneNumber(user.getEmail(), user.getUserDetails().getPhoneNumber())).thenReturn(false);
-        when(authorityRepository.findByRole("ROLE_GUEST")).thenReturn(authority);
+        when(authorityRepository.findByRole("ROLE_CLIENT")).thenReturn(authority);
         when(bCryptPasswordEncoder.encode(user.getPassword())).thenReturn(ENCODED_PASS);
         when(userRepository.save(user)).thenReturn(savedUser);
 
