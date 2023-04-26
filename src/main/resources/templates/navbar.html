@@ -15,17 +15,17 @@
 
             <li sec:authorize="hasRole('ADMIN')"><a class="nav-link" th:href="@{/users}">Users</a></li>
 
-            <li sec:authorize="!isAuthenticated()"><a class="nav-link" th:href="@{/users/form}">Register</a></li>
-
-            <li sec:authorize="!isAuthenticated()"><a class="nav-link" th:href="@{/login-form}">Login</a></li>
-
-            <li sec:authorize="isAuthenticated()"><a class="nav-link" th:href="@{/jobs}">Jobs</a></li>
+            <li><a class="nav-link" th:href="@{/jobs}">Services</a></li>
 
             <li sec:authorize="isAuthenticated()"><a class="nav-link" th:href="@{/cars}">Cars</a></li>
 
             <li sec:authorize="hasRole('ADMIN')"><a class="nav-link" th:href="@{/employees}">Employees</a></li>
 
             <li sec:authorize="isAuthenticated()"><a class="nav-link" th:href="@{/appointments}">Appointments</a></li>
+
+            <li sec:authorize="!isAuthenticated()"><a class="nav-link" th:href="@{/users/form}">Register</a></li>
+
+            <li sec:authorize="!isAuthenticated()"><a class="nav-link" th:href="@{/login-form}">Login</a></li>
 
             <li sec:authorize="isAuthenticated()">
                 <form th:action="@{/perform-logout}" th:method="POST" >
