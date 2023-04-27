@@ -1,20 +1,20 @@
 package com.uxui.carwash.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.uxui.carwash.model.security.User;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.List;
 
-@Data
-@Entity
+@Getter
+@Setter
 @Builder
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "employees")
@@ -25,26 +25,6 @@ public class Employee {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long id;
 
-    @Column(name = "first_name")
-    @NotNull(message = "First name is mandatory.")
-    @Size(min = 1, max = 150, message = "First name must be between 1 and 100 characters long.")
-    private String firstName;
-
-    @Column(name = "last_name")
-    @NotNull(message = "Last name is mandatory.")
-    @Size(min = 1, max = 150, message = "Last name must be between 1 and 100 characters long.")
-    private String lastName;
-
-    @Column(name = "email")
-    @NotEmpty(message="Email cannot be empty.")
-    @Email(message = "Email has an invalid format.")
-    private String email;
-
-    @Column(name = "phone_number")
-    @NotNull(message = "Phone number is mandatory.")
-    @Pattern(regexp = "^(\\+\\d{1,3}( )?)?((\\(\\d{3}\\))|\\d{3})[- .]?\\d{3}[- .]?\\d{4}$", message = "Phone number is invalid.")
-    private String phoneNumber;
-
     @Column(name = "salary")
     @NotNull(message = "Salary is mandatory.")
     @Min(value = 1500, message = "Salary must be at least 1500.")
@@ -53,8 +33,13 @@ public class Employee {
 
     @Column(name = "hire_date")
     @NotNull(message = "Hire date is mandatory.")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd", iso = DateTimeFormat.ISO.DATE, fallbackPatterns = { "yyyy-MM-dd" })
     private LocalDate hireDate;
+
+    @Valid
+    @OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @ManyToMany(mappedBy = "employees", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Appointment> appointments;

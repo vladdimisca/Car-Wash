@@ -27,10 +27,10 @@ public class UserService  {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final JpaUserDetailsService jpaUserDetailsService;
 
-    public User create(User user) {
+    public User create(User user, String role) {
         checkUserNotExisting(user);
 
-        Authority authority = authorityRepository.findByRole("ROLE_CLIENT");
+        Authority authority = authorityRepository.findByRole(role);
         user.setAuthorities(Collections.singleton(authority));
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 

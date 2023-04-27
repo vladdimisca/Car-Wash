@@ -1,10 +1,118 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>Create employee</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-$END$
+
+<div th:insert="navbar :: navbar"></div>
+
+<form th:object="${employee}" th:action="@{/employees/}" method="post">
+    <input type="hidden" th:field="*{id}"/>
+    <input type="hidden" th:field="*{user.password}"/>
+    <div class="container">
+
+        <div class="panel panel-primary mt-3">
+
+            <div class="panel-heading mt-2">
+                <h2 class="panel-title" style="padding: 5px">Add a new employee</h2>
+            </div>
+
+            <br>
+
+            <div class="panel-body">
+
+                <div class="row col-md-8">
+                    <div class="col-md-4">
+                        <label>Email:</label>
+                        <input type="text" class="form-control" th:field="*{user.email}" placeholder="Email"/>
+                        <label th:if="${#fields.hasErrors('user.email')}" th:errors="*{user.email}" type="error"
+                               class="error text-danger">
+                            Error
+                        </label>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label>Phone number:</label>
+                        <input type="text" class="form-control" th:field="*{user.userDetails.phoneNumber}" placeholder="Phone number"/>
+                        <label th:if="${#fields.hasErrors('user.userDetails.phoneNumber')}" th:errors="*{user.userDetails.phoneNumber}" type="error"
+                               class="error text-danger">
+                            Error
+                        </label>
+                    </div>
+                </div>
+
+                <div class="row col-md-8 mt-3">
+                    <div class="col-md-4">
+                        <label>First name:</label>
+                        <input type="text" class="form-control" th:field="*{user.userDetails.firstName}" placeholder="First name"/>
+                        <label th:if="${#fields.hasErrors('user.userDetails.firstName')}" th:errors="*{user.userDetails.firstName}" type="error"
+                               class="error text-danger">
+                            Error
+                        </label>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label>Last name:</label>
+                        <input type="text" class="form-control" th:field="*{user.userDetails.lastName}" placeholder="Last name"/>
+                        <label th:if="${#fields.hasErrors('user.userDetails.lastName')}" th:errors="*{user.userDetails.lastName}" type="error"
+                               class="error text-danger">
+                            Error
+                        </label>
+                    </div>
+                </div>
+
+                <div class="row col-md-8 mt-3">
+                    <div class="col-md-4">
+                        <label>Hire date:</label>
+                        <input type="date" class="form-control" th:field="*{hireDate}"/>
+                        <label th:if="${#fields.hasErrors('hireDate')}" th:errors="*{hireDate}" type="error"
+                               class="error text-danger">
+                            Error
+                        </label>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label>Salary:</label>
+                        <input type="number" class="form-control" th:field="*{salary}" placeholder="Salary"/>
+                        <label th:if="${#fields.hasErrors('salary')}" th:errors="*{salary}" type="error"
+                               class="error text-danger">
+                            Error
+                        </label>
+                    </div>
+                </div>
+
+                <div class="row col-md-8 mt-3">
+                    <div class="col-md-4">
+                        <label for="gender">Gender: </label>
+                        <select id="gender" name="gender" class="form-control" th:field="*{user.userDetails.gender}" />
+                        <option selected disabled th:value="${null}">-- Select your gender -- </option>
+                        <option
+                                th:each="gender:${T(com.uxui.carwash.model.Gender).values()}"
+                                th:value="${gender}" th:text="${gender.description}"
+                                th:selected="${employee.user.userDetails.gender != null && employee.user.userDetails.gender == gender}">
+                        </option>
+                        </select>
+                        <label th:if="${#fields.hasErrors('user.userDetails.gender')}" th:errors="*{user.userDetails.gender}" type="error"
+                               class="error text-danger">
+                            Error
+                        </label>
+                    </div>
+                </div>
+
+
+                <br>
+                <div class="row">
+                    <div class="col-md-12 ml-md-auto">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
 </body>
 </html>

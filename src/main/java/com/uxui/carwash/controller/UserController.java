@@ -35,7 +35,7 @@ public class UserController {
         }
 
         try {
-            userService.create(user);
+            userService.create(user, "ROLE_CLIENT");
         } catch (AbstractApiException e) {
             attr.addFlashAttribute("user", user);
             attr.addFlashAttribute("api_error", e.getMessage());

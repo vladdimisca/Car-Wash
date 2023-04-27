@@ -19,6 +19,7 @@ import javax.transaction.Transactional;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.time.temporal.ChronoUnit.HOURS;
@@ -46,6 +47,7 @@ public class DataLoader implements CommandLineRunner {
         if (userRepository.count() == 0){
             Authority adminRole = authorityRepository.save(Authority.builder().role("ROLE_ADMIN").build());
             Authority clientRole = authorityRepository.save(Authority.builder().role("ROLE_CLIENT").build());
+            Authority employeeRole = authorityRepository.save(Authority.builder().role("ROLE_EMPLOYEE").build());
 
             UserDetails adminDetails = UserDetails.builder()
                     .firstName("admin")
@@ -87,6 +89,62 @@ public class DataLoader implements CommandLineRunner {
                     .password(passwordEncoder.encode("12345"))
                     .authority(clientRole)
                     .userDetails(client2Details)
+                    .build();
+
+            UserDetails employee1Details = UserDetails.builder()
+                    .firstName("Eugen")
+                    .lastName("Popescu")
+                    .phoneNumber("0751122211")
+                    .gender(Gender.MALE)
+                    .build();
+
+            User empUser1 = User.builder()
+                    .email("emp1@carwash.com")
+                    .password(passwordEncoder.encode("12345"))
+                    .userDetails(employee1Details)
+                    .authority(employeeRole)
+                    .build();
+
+            UserDetails employee2Details = UserDetails.builder()
+                    .firstName("Toma")
+                    .lastName("Avramescu")
+                    .phoneNumber("0751324111")
+                    .gender(Gender.MALE)
+                    .build();
+
+            User empUser2 = User.builder()
+                    .email("emp2@carwash.com")
+                    .password(passwordEncoder.encode("12345"))
+                    .authority(employeeRole)
+                    .userDetails(employee2Details)
+                    .build();
+
+            UserDetails employee3Details = UserDetails.builder()
+                    .firstName("Andreea")
+                    .lastName("Petrescu")
+                    .phoneNumber("0321122211")
+                    .gender(Gender.FEMALE)
+                    .build();
+
+            User empUser3 = User.builder()
+                    .email("emp3@carwash.com")
+                    .password(passwordEncoder.encode("12345"))
+                    .userDetails(employee3Details)
+                    .authority(employeeRole)
+                    .build();
+
+            UserDetails employee4Details = UserDetails.builder()
+                    .firstName("Daniela")
+                    .lastName("Georgescu")
+                    .phoneNumber("0751324223")
+                    .gender(Gender.FEMALE)
+                    .build();
+
+            User empUser4 = User.builder()
+                    .email("emp4@carwash.com")
+                    .password(passwordEncoder.encode("12345"))
+                    .authority(employeeRole)
+                    .userDetails(employee4Details)
                     .build();
 
             userRepository.save(admin);
@@ -148,37 +206,25 @@ public class DataLoader implements CommandLineRunner {
             Job savedJob4 = jobRepository.save(job4);
 
             Employee employee1 = Employee.builder()
-                    .firstName("Avram")
-                    .lastName("Ionescu")
-                    .email("aionescu@carwash.com")
-                    .phoneNumber("1234567895")
+                    .user(empUser1)
                     .salary(2000.0)
                     .hireDate(LocalDate.now())
                     .build();
 
             Employee employee2 = Employee.builder()
-                    .firstName("George")
-                    .lastName("Georgescu")
-                    .email("ggeorgescu@carwash.com")
-                    .phoneNumber("1334587895")
+                    .user(empUser2)
                     .salary(2200.0)
                     .hireDate(LocalDate.now())
                     .build();
 
             Employee employee3 = Employee.builder()
-                    .firstName("Gabriel")
-                    .lastName("Enescu")
-                    .email("genescu@carwash.com")
-                    .phoneNumber("2335587855")
+                    .user(empUser3)
                     .salary(2100.0)
                     .hireDate(LocalDate.now())
                     .build();
 
             Employee employee4 = Employee.builder()
-                    .firstName("Mihai")
-                    .lastName("Prajescu")
-                    .email("mprajescu@carwash.com")
-                    .phoneNumber("0235589855")
+                    .user(empUser4)
                     .salary(2000.0)
                     .hireDate(LocalDate.now())
                     .build();
@@ -193,6 +239,7 @@ public class DataLoader implements CommandLineRunner {
                     .job(savedJob1)
                     .car(car2)
                     .user(savedClient2)
+                    .employees(List.of(savedEmployee1, savedEmployee2))
                     .build();
 
             Appointment appointment2 = Appointment.builder()
@@ -200,6 +247,7 @@ public class DataLoader implements CommandLineRunner {
                     .job(savedJob4)
                     .car(car1)
                     .user(savedClient1)
+                    .employees(List.of(savedEmployee3))
                     .build();
 
             Appointment appointment3 = Appointment.builder()
@@ -207,6 +255,7 @@ public class DataLoader implements CommandLineRunner {
                     .job(savedJob2)
                     .car(car1)
                     .user(savedClient1)
+                    .employees(List.of(savedEmployee1, savedEmployee2))
                     .build();
 
             Appointment appointment4 = Appointment.builder()
@@ -214,22 +263,13 @@ public class DataLoader implements CommandLineRunner {
                     .job(savedJob3)
                     .car(car1)
                     .user(savedClient1)
+                    .employees(List.of(savedEmployee3, savedEmployee4))
                     .build();
 
-            Appointment savedAppointment1 = appointmentRepository.save(appointment1);
-            Appointment savedAppointment2 = appointmentRepository.save(appointment2);
-            Appointment savedAppointment3 = appointmentRepository.save(appointment3);
-            Appointment savedAppointment4 = appointmentRepository.save(appointment4);
-
-            savedAppointment1.setEmployees(List.of(savedEmployee1, savedEmployee2));
-            savedAppointment2.setEmployees(List.of(savedEmployee3));
-            savedAppointment3.setEmployees(List.of(savedEmployee1, savedEmployee2));
-            savedAppointment4.setEmployees(List.of(savedEmployee3, savedEmployee4));
-
-            appointmentRepository.save(savedAppointment1);
-            appointmentRepository.save(savedAppointment2);
-            appointmentRepository.save(savedAppointment3);
-            appointmentRepository.save(savedAppointment4);
+            appointmentRepository.save(appointment1);
+            appointmentRepository.save(appointment2);
+            appointmentRepository.save(appointment3);
+            appointmentRepository.save(appointment4);
         }
     }
 }
