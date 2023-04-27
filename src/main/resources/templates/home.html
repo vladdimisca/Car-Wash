@@ -1,15 +1,93 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/webjars/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+    <style>
+        .banner {
+            background-color: #ffffff;
+            width: 100%;
+            padding: 2em 0;
+        }
+        .row {
+            align-items: center;
+        }
+        h1 {
+            color: #7145ed;
+            text-shadow: 1px 1px 2px #7c7c7c;
+        }
+        .btn {
+            padding: 0.5em 1.5em;
+            border-radius: 2em;
+            box-shadow: 5px 5px 5px rgba(105, 73, 73, 0.15);
+        }
+        @media screen and (max-width: 567px) {
+            .banner {
+                text-align: center;
+            }
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+        .profile-circel-image-200 img {
+            width: 200px;
+            height: 200px;
+            border-radius: 200px;
+        }
+        .vv img {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .vv img:hover {
+            opacity: 0.8;
+            box-shadow: 0px 0px 5px 8px rgba(0,0,0,0.08);
+        }
+    </style>
 </head>
-
 <div th:insert="navbar :: navbar"></div>
+<div class="banner">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-5" style="margin-right: 50px">
+                <h1 class="display-1 fw-bold">Car wash</h1>
+                <p>With our online managing platform for car washing, you can create an account, find the service you need and schedule an appointment.</p>
+                <button onclick="window.location.href='#abc'" class="btn btn-success">Learn More</button>
+            </div>
+            <div class="col-sm-6">
+                <img class="img-fluid" th:src="@{/images/cleancar.jpg}" alt="thn" style="box-shadow: 5px 5px 5px grey;">
+            </div>
+        </div>
+    </div>
+</div>
+<div id="abc" class="container py-5">
+    <div class="row py-5">
+        <div class="col-12 text-center">
+            <h2 class="mb-2 h1 font-weight-bold">Scheduling an appointment for washing your car has never been easier.</h2>
+            <p class="text-muted mb-5 pb-3">Clean interface, intuitive user experience</p>
+            <div class="row">
+                <div class="col-lg-4 col-md-6 vv profile-circel-image-200">
+                    <img th:src="@{/images/carwash.jpg}">
+                    <h5 style="color: #7145ed" class="mb-3 mt-5">Choose a service</h5>
+                    <p class="mb-4 text-muted">You can browse from our list of services and choose which one is the best for you.        </p>
+                </div>
+                <div class="col-lg-4 col-md-6 vv profile-circel-image-200">
+                    <img th:src="@{/images/addcar.png}" class="rounded img-fluid rounded-circle">
+                    <h5 style="color: #7145ed" class="mb-3 mt-5">Add your cars</h5>
+                    <p class="mb-4 text-muted">Add information about your cars in your profile in order to help you create the appointment    </p>
+                </div>
+                <div class="col-lg-4 col-md-6 vv profile-circel-image-200">
+                    <img th:src="@{/images/appointment.jpg}" class="rounded img-fluid rounded-circle">
+                    <h5 style="color: #7145ed" class="mb-3 mt-5">Schedule an appointment</h5>
+                    <p class="mb-4 text-muted">Schedule an appointment to one of our cleaning services. Your appointments will show up in My Appointments page.         </p>
+                </div>
+            </div>
 
-<body>
-
+        </div>
+    </div>
+</div>
 </body>
 </html>
