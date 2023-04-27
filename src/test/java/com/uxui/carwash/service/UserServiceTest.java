@@ -58,7 +58,7 @@ class UserServiceTest {
         when(bCryptPasswordEncoder.encode(user.getPassword())).thenReturn(ENCODED_PASS);
         when(userRepository.save(user)).thenReturn(savedUser);
 
-        User resultedUser = userService.create(user);
+        User resultedUser = userService.create(user, "ROLE_CLIENT");
 
         assertNotNull(resultedUser);
         assertEquals(savedUser.getId(), resultedUser.getId());
@@ -76,7 +76,7 @@ class UserServiceTest {
 
         when(userRepository.existsByEmailOrPhoneNumber(user.getEmail(), user.getUserDetails().getPhoneNumber())).thenReturn(true);
 
-        assertThrows(ConflictException.class, () -> userService.create(user));
+        assertThrows(ConflictException.class, () -> userService.create(user, "ROLE_CLIENT"));
         verify(userRepository, times(1))
                 .existsByEmailOrPhoneNumber(user.getEmail(), user.getUserDetails().getPhoneNumber());
     }

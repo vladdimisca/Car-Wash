@@ -235,10 +235,6 @@ class AppointmentServiceTest {
     private Employee getEmployee() {
         Employee employee = new Employee();
         employee.setId(EMPLOYEE_ID);
-        employee.setEmail("test@email");
-        employee.setPhoneNumber("test_phone");
-        employee.setFirstName("testf");
-        employee.setLastName("testl");
         employee.setAppointments(Collections.emptyList());
 
         return employee;

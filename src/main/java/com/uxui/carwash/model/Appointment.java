@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -43,9 +44,9 @@ public class Appointment {
     @JoinColumn(name = "fk_job", referencedColumnName = "id")
     private Job job;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.MERGE})
     @JoinTable(name = "employees_appointments",
             joinColumns = @JoinColumn(name = "appointment_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "employee_id", referencedColumnName = "id"))
-    private List<Employee> employees;
+    private List<Employee> employees = new ArrayList<>();
 }
