@@ -10,6 +10,9 @@ public class DateFormatter {
     private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat(DATE_TIME_PATTERN);
 
     public static String formatDate(LocalDateTime dateTime) {
+        if (dateTime == null) {
+            return null;
+        }
         Date date = Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant());
         return SIMPLE_DATE_FORMAT.format(date);
     }
