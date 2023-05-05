@@ -118,33 +118,30 @@ class AppointmentServiceTest {
     @Test
     @DisplayName("Get all appointments - success")
     void getAll_success() {
-        Pageable pageable = PageRequest.of(1, 5, Sort.by("startTime").descending());
 
         when(jpaUserDetailsService.hasAuthority("ROLE_ADMIN")).thenReturn(true);
-        when(appointmentRepository.findAll(pageable)).thenReturn(new PageImpl<>(List.of(getSavedAppointment())));
+        when(appointmentRepository.findAll()).thenReturn(List.of(getSavedAppointment()));
 
-        Page<Appointment> appointmentsPage = appointmentService.getAll(pageable);
+        List<Appointment> appointmentsPage = appointmentService.getAll();
 
         assertNotNull(appointmentsPage);
-        assertEquals(1, appointmentsPage.getTotalElements());
-        verify(appointmentRepository, times(1)).findAll(pageable);
+        assertEquals(1, appointmentsPage.size());
+        verify(appointmentRepository, times(1)).findAll();
     }
 
     @Test
     @DisplayName("Get all appointments by user - success")
     void getAllByUser_success() {
-        Pageable pageable = PageRequest.of(1, 5, Sort.by("startTime").descending());
-
         when(jpaUserDetailsService.hasAuthority("ROLE_ADMIN")).thenReturn(false);
         when(jpaUserDetailsService.getCurrentUserPrincipal()).thenReturn(
                 new org.springframework.security.core.userdetails.User(USER_EMAIL, "pass", new HashSet<>()));
-        when(appointmentRepository.findAllByEmail(USER_EMAIL, pageable)).thenReturn(new PageImpl<>(List.of(getSavedAppointment())));
+        when(appointmentRepository.findAllByEmail(USER_EMAIL)).thenReturn(List.of(getSavedAppointment()));
 
-        Page<Appointment> appointmentsPage = appointmentService.getAll(pageable);
+        List<Appointment> appointmentsPage = appointmentService.getAll();
 
         assertNotNull(appointmentsPage);
-        assertEquals(1, appointmentsPage.getTotalElements());
-        verify(appointmentRepository, times(1)).findAllByEmail(USER_EMAIL, pageable);
+        assertEquals(1, appointmentsPage.size());
+        verify(appointmentRepository, times(1)).findAllByEmail(USER_EMAIL);
     }
 
     @Test

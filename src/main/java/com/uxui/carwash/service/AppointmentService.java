@@ -93,12 +93,12 @@ public class AppointmentService {
     }
 
 
-    public Page<Appointment> getAll(Pageable pageable) {
+    public List<Appointment> getAll() {
         boolean isAdmin = jpaUserDetailsService.hasAuthority("ROLE_ADMIN");
         if (isAdmin) {
-            return appointmentRepository.findAll(pageable);
+            return appointmentRepository.findAll();
         }
-        return appointmentRepository.findAllByEmail(jpaUserDetailsService.getCurrentUserPrincipal().getUsername(), pageable);
+        return appointmentRepository.findAllByEmail(jpaUserDetailsService.getCurrentUserPrincipal().getUsername());
     }
 
     public void deleteById(Long id) {

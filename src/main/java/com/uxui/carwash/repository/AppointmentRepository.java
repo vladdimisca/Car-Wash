@@ -8,8 +8,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
     @Query("SELECT a from Appointment a WHERE a.user.email = :email")
-    Page<Appointment> findAllByEmail(@Param("email") String email, Pageable pageable);
+    List<Appointment> findAllByEmail(@Param("email") String email);
 }
