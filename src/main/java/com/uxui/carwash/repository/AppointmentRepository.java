@@ -14,4 +14,7 @@ import java.util.List;
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
     @Query("SELECT a from Appointment a WHERE a.user.email = :email")
     List<Appointment> findAllByEmail(@Param("email") String email);
+
+    @Query("SELECT a from Appointment a JOIN a.employees e WHERE e.user.email = :email")
+    List<Appointment> findAllByEmployeeEmail(@Param("email") String email);
 }

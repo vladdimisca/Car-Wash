@@ -101,8 +101,15 @@
                     </div>
                 </div>
 
+                <div th:if="${api_error} != null" class="row row mt-2">
+                    <label th:text="${api_error}" type="error"
+                           class="error text-danger col-md-4">
+                        Error
+                    </label>
+                </div>
 
                 <br>
+
                 <div class="row">
                     <div class="col-md-12 ml-md-auto">
                         <button type="submit" class="btn btn-primary">Submit</button>

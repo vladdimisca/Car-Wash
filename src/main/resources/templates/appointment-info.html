@@ -85,5 +85,31 @@
         </form>
     </div>
 </div>
+
+<br>
+
+<div class="container mt-3">
+
+    <div class="panel-heading mt-2">
+        <h2 class="panel-title" style="padding: 5px">Assigned employees</h2>
+    </div>
+
+    <table class="table table-hover table-striped table-bordered rounded">
+        <thead class="thead-inverse">
+        <tr>
+            <th class="header" scope="col">First name</th>
+            <th class="header" scope="col">Last name</th>
+            <th class="header" scope="col">Email</th>
+            <th class="header" scope="col">Phone number</th>
+        </tr>
+        </thead>
+        <tr th:each="employee : ${appointment.employees}">
+            <td th:text="${employee.user.userDetails.firstName}"></td>
+            <td th:text="${employee.user.userDetails.lastName}"></td>
+            <td th:text="${employee.user.email}"></td>
+            <td th:text="${employee.user.userDetails.phoneNumber}"></td>
+        </tr>
+    </table>
+</div>
 </body>
 </html>

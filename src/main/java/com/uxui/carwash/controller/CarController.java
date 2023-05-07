@@ -1,5 +1,6 @@
 package com.uxui.carwash.controller;
 
+import com.uxui.carwash.error.exception.AbstractApiException;
 import com.uxui.carwash.model.Car;
 import com.uxui.carwash.service.CarService;
 import lombok.RequiredArgsConstructor;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
@@ -18,12 +20,18 @@ public class CarController {
     private final CarService carService;
 
     @PostMapping
-    public String create(@Valid @ModelAttribute Car car, BindingResult bindingResult) {
+    public String create(@Valid @ModelAttribute Car car, BindingResult bindingResult, RedirectAttributes attr) {
         if (bindingResult.hasErrors()) {
             return "car-form";
         }
 
-        carService.create(car);
+        try {
+            carService.create(car);
+        } catch (AbstractApiException e) {
+            attr.addFlashAttribute("car", car);
+            attr.addFlashAttribute("api_error", e.getMessage());
+            return "redirect:/cars/form";
+        }
         return "redirect:/cars";
     }
 
@@ -41,7 +49,9 @@ public class CarController {
 
     @GetMapping("/form")
     public String carForm(Model model) {
-        model.addAttribute("car", new Car());
+        if (!model.containsAttribute("car")) {
+            model.addAttribute("car", new Car());
+        }
         return "car-form";
     }
 }

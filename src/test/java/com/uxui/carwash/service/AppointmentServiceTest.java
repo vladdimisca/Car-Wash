@@ -119,7 +119,8 @@ class AppointmentServiceTest {
     @DisplayName("Get all appointments - success")
     void getAll_success() {
 
-        when(jpaUserDetailsService.hasAuthority("ROLE_ADMIN")).thenReturn(true);
+        when(jpaUserDetailsService.hasAuthority("ROLE_CLIENT")).thenReturn(false);
+        when(jpaUserDetailsService.hasAuthority("ROLE_EMPLOYEE")).thenReturn(false);
         when(appointmentRepository.findAll()).thenReturn(List.of(getSavedAppointment()));
 
         List<Appointment> appointmentsPage = appointmentService.getAll();
@@ -132,7 +133,7 @@ class AppointmentServiceTest {
     @Test
     @DisplayName("Get all appointments by user - success")
     void getAllByUser_success() {
-        when(jpaUserDetailsService.hasAuthority("ROLE_ADMIN")).thenReturn(false);
+        when(jpaUserDetailsService.hasAuthority("ROLE_CLIENT")).thenReturn(true);
         when(jpaUserDetailsService.getCurrentUserPrincipal()).thenReturn(
                 new org.springframework.security.core.userdetails.User(USER_EMAIL, "pass", new HashSet<>()));
         when(appointmentRepository.findAllByEmail(USER_EMAIL)).thenReturn(List.of(getSavedAppointment()));
