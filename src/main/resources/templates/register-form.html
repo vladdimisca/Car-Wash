@@ -105,8 +105,8 @@
                 </div>
             </div>
 
-            <div class="row row justify-content-md-center mt-2">
-                <label th:if="${api_error} != null" th:text="${api_error}" type="error"
+            <div th:if="${api_error} != null" class="row row justify-content-md-center mt-2">
+                <label th:text="${api_error}" type="error"
                        class="error text-danger col-md-4">
                     Error
                 </label>

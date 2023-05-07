@@ -11,21 +11,37 @@
             <a class="navbar-brand" th:href="@{/}">Car wash</a>
         </div>
         <ul class="nav navbar-nav">
-            <li sec:authorize="isAuthenticated()"><a class="nav-link" th:href="@{/users/current}">Profile</a></li>
+            <li sec:authorize="isAuthenticated()">
+                <a class="nav-link" th:href="@{/users/current}" th:classappend="${#httpServletRequest.getRequestURI() == '/users/current' ? 'active':''}">Profile</a>
+            </li>
 
-            <li sec:authorize="hasRole('ADMIN')"><a class="nav-link" th:href="@{/users}">Users</a></li>
+            <li sec:authorize="hasRole('ADMIN')">
+                <a class="nav-link" th:href="@{/users}" th:classappend="${#httpServletRequest.getRequestURI() == '/users' ? 'active':''}">Users</a>
+            </li>
 
-            <li><a class="nav-link" th:href="@{/jobs}">Services</a></li>
+            <li>
+                <a class="nav-link" th:href="@{/jobs}" th:classappend="${#httpServletRequest.getRequestURI() == '/jobs' ? 'active':''}">Services</a>
+            </li>
 
-            <li sec:authorize="isAuthenticated()"><a class="nav-link" th:href="@{/cars}">Cars</a></li>
+            <li sec:authorize="hasAnyRole('ADMIN', 'CLIENT')" >
+                <a class="nav-link" th:href="@{/cars}" th:classappend="${#httpServletRequest.getRequestURI() == '/cars' ? 'active':''}">Cars</a>
+            </li>
 
-            <li sec:authorize="hasRole('ADMIN')"><a class="nav-link" th:href="@{/employees}">Employees</a></li>
+            <li sec:authorize="hasRole('ADMIN')">
+                <a class="nav-link" th:href="@{/employees}" th:classappend="${#httpServletRequest.getRequestURI() == '/employees' ? 'active':''}">Employees</a>
+            </li>
 
-            <li sec:authorize="isAuthenticated()"><a class="nav-link" th:href="@{/appointments}">Appointments</a></li>
+            <li sec:authorize="isAuthenticated()">
+                <a class="nav-link" th:href="@{/appointments}" th:classappend="${#httpServletRequest.getRequestURI() == '/appointments' ? 'active':''}">Appointments</a>
+            </li>
 
-            <li sec:authorize="!isAuthenticated()"><a class="nav-link" th:href="@{/users/form}">Register</a></li>
+            <li sec:authorize="!isAuthenticated()">
+                <a class="nav-link" th:href="@{/users/form}" th:classappend="${#httpServletRequest.getRequestURI() == '/users/form' ? 'active':''}">Register</a>
+            </li>
 
-            <li sec:authorize="!isAuthenticated()"><a class="nav-link" th:href="@{/login-form}">Login</a></li>
+            <li sec:authorize="!isAuthenticated()">
+                <a class="nav-link" th:href="@{/login-form}" th:classappend="${#httpServletRequest.getRequestURI() == '/login-form' ? 'active':''}">Login</a>
+            </li>
 
             <li sec:authorize="isAuthenticated()">
                 <form th:action="@{/perform-logout}" th:method="POST" >

@@ -50,14 +50,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/employees/**").hasAnyRole("ADMIN")
                 // appointments
                 .antMatchers("/appointments/form/**").hasAnyRole("CLIENT")
-                .antMatchers(HttpMethod.GET, "/appointments", "/appointments/*").hasAnyRole("CLIENT", "ADMIN")
+                .antMatchers(HttpMethod.GET, "/appointments", "/appointments/*").hasAnyRole("CLIENT", "ADMIN", "EMPLOYEE")
                 .antMatchers(HttpMethod.POST, "/appointments").hasAnyRole("CLIENT")
                 .antMatchers(HttpMethod.DELETE, "/appointments/*").hasAnyRole("CLIENT", "ADMIN")
                 .antMatchers(HttpMethod.PUT, "/appointments/*").hasAnyRole("CLIENT")
                 // users
                 .antMatchers(HttpMethod.GET, "/users/form").permitAll()
                 .antMatchers(HttpMethod.POST, "/users").permitAll()
-                .antMatchers(HttpMethod.GET, "/users/*", "/users/current").hasAnyRole("CLIENT", "ADMIN")
+                .antMatchers(HttpMethod.GET, "/users/*", "/users/current").hasAnyRole("CLIENT", "ADMIN", "EMPLOYEE")
                 .antMatchers(HttpMethod.GET, "/users").hasAnyRole("ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/users/*").hasAnyRole("CLIENT", "ADMIN")
                 .antMatchers(HttpMethod.PUT, "/users/form/*").hasAnyRole("CLIENT", "ADMIN")

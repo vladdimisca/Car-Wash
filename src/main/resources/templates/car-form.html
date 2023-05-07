@@ -34,14 +34,14 @@
               <div>
                 <label>Type:</label>
                 <select id="carType" name="carType" class="form-control" th:field="*{type}" />
-                  <option disabled selected th:value="null">-- Select a car --</option>
+                  <option disabled selected th:value="null">-- Select a type --</option>
                   <option
-                          th:each="type:${T(com.uxui.carwash.model.CarType).values()}"
-                          th:value="${type}" th:text="${type.description}"
-                          th:selected="${car.type != null && car.type eq type}">
+                          th:each="carType:${T(com.uxui.carwash.model.CarType).values()}"
+                          th:value="${carType}" th:text="${carType.description}"
+                          th:selected="${car.type != null && car.type eq carType}">
                   </option>
                 </select>
-                <label th:if="${#fields.hasErrors('type')}" th:errors="${type}"
+                <label th:if="${#fields.hasErrors('type')}" th:errors="*{type}"
                        type="error" class="error text-danger">
                   Error
                 </label>
@@ -50,15 +50,20 @@
               <div style="margin-top: 15px">
                 <label>License place:</label>
                 <input name="licensePlate" type="text" min="1" class="form-control"
-                       th:field="*{licensePlate}"/>
+                       th:field="*{licensePlate}" placeholder="License plate"/>
                 <label th:if="${#fields.hasErrors('licensePlate')}"
                        th:errors="*{licensePlate}" type="error" class="error text-danger">
                   Error
                 </label>
-<!--                <label th:if="${error_medication} != null" class="error text-danger"-->
-<!--                       th:text="${error_medication}"></label>-->
               </div>
             </div>
+          </div>
+
+          <div th:if="${api_error} != null" class="row row mt-2">
+            <label th:text="${api_error}" type="error"
+                   class="error text-danger col-md-4">
+              Error
+            </label>
           </div>
 
           <div class="row">

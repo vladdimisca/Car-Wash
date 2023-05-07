@@ -85,20 +85,22 @@ public class AppointmentService {
         Appointment appointment = appointmentRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException(ErrorMessage.RESOURCE_NOT_FOUND, "appointment", id));
         boolean isAdmin = jpaUserDetailsService.hasAuthority("ROLE_ADMIN");
-        if (!isAdmin && !appointment.getUser().getEmail().equals(jpaUserDetailsService.getCurrentUserPrincipal().getUsername())) {
+        boolean isEmployee = jpaUserDetailsService.hasAuthority("ROLE_EMPLOYEE");
+        if (!isAdmin && !isEmployee && !appointment.getUser().getEmail().equals(jpaUserDetailsService.getCurrentUserPrincipal().getUsername())) {
             throw new ForbiddenActionException(ErrorMessage.FORBIDDEN);
         }
-
         return appointment;
     }
 
 
     public List<Appointment> getAll() {
-        boolean isAdmin = jpaUserDetailsService.hasAuthority("ROLE_ADMIN");
-        if (isAdmin) {
-            return appointmentRepository.findAll();
+        if (jpaUserDetailsService.hasAuthority("ROLE_CLIENT")) {
+            return appointmentRepository.findAllByEmail(jpaUserDetailsService.getCurrentUserPrincipal().getUsername());
         }
-        return appointmentRepository.findAllByEmail(jpaUserDetailsService.getCurrentUserPrincipal().getUsername());
+        if (jpaUserDetailsService.hasAuthority("ROLE_EMPLOYEE")) {
+            return appointmentRepository.findAllByEmployeeEmail(jpaUserDetailsService.getCurrentUserPrincipal().getUsername());
+        }
+        return appointmentRepository.findAll();
     }
 
     public void deleteById(Long id) {
