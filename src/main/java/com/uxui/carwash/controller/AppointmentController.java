@@ -47,6 +47,24 @@ public class AppointmentController {
         return "redirect:/appointments";
     }
 
+    @PutMapping("/{id}")
+    public String update(@PathVariable("id") Long id, @Valid @ModelAttribute Appointment appointment, BindingResult bindingResult, Model model, RedirectAttributes attr) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("cars", carService.getAll());
+            model.addAttribute("jobs", jobService.getAll());
+            return "update-appointment-form";
+        }
+
+        try {
+            appointmentService.update(id, appointment);
+        } catch (AbstractApiException e) {
+            attr.addFlashAttribute("appointment", appointment);
+            attr.addFlashAttribute("api_error", e.getMessage());
+            return "redirect:/appointments/form/" + id;
+        }
+        return "redirect:/appointments";
+    }
+
     @GetMapping
     public String getAll(Model model) {
         model.addAttribute("appointments", appointmentService.getAll());
@@ -83,6 +101,26 @@ public class AppointmentController {
             model.addAttribute("jobsCarTypes", getJobsCarTypes(jobService.getAll()));
         }
         return "appointment-form";
+    }
+
+    @GetMapping("/form/{id}")
+    public String updateAppointmentForm(@PathVariable("id") Long id, Model model) {
+        if (!model.containsAttribute("appointment")) {
+            model.addAttribute("appointment", appointmentService.getById(id));
+        }
+        if (!model.containsAttribute("cars")) {
+            model.addAttribute("cars", carService.getAll());
+        }
+        if (!model.containsAttribute("jobs")) {
+            model.addAttribute("jobs", jobService.getAll());
+        }
+        if (!model.containsAttribute("carTypes")) {
+            model.addAttribute("carTypes", getCarTypes(carService.getAll()));
+        }
+        if (!model.containsAttribute("jobsCarTypes")) {
+            model.addAttribute("jobsCarTypes", getJobsCarTypes(jobService.getAll()));
+        }
+        return "update-appointment-form";
     }
 
     private List<Car> getCarTypes(List<Car> cars) {

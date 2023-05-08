@@ -11,7 +11,7 @@ import java.util.List;
 
 @Repository
 public interface CarRepository extends JpaRepository<Car, Long> {
-    boolean existsByLicensePlateAndUser(String licensePlate, User user);
+    boolean existsByLicensePlateAndUser_Id(String licensePlate, Long userId);
 
     @Query("SELECT c from Car c WHERE c.user.email = :email")
     List<Car> findAllByEmail(@Param("email") String email);

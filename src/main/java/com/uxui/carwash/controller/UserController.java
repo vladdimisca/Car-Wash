@@ -12,10 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
@@ -44,6 +41,22 @@ public class UserController {
         return "redirect:/login-form";
     }
 
+    @PutMapping("/{id}")
+    public String update(@PathVariable("id") Long id, @Valid @ModelAttribute User user, BindingResult bindingResult, RedirectAttributes attr) {
+        if (bindingResult.hasErrors()) {
+            return "update-user-form";
+        }
+
+        try {
+            userService.update(id, user);
+        } catch (AbstractApiException e) {
+            attr.addFlashAttribute("user", user);
+            attr.addFlashAttribute("api_error", e.getMessage());
+            return "redirect:/users/form/" + id;
+        }
+        return "redirect:/users/current";
+    }
+
     @GetMapping("/form")
     public String userForm(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -59,6 +72,14 @@ public class UserController {
             return "register-form";
         }
         return "redirect:/index";
+    }
+
+    @GetMapping("/form/{id}")
+    public String updateUserForm(@PathVariable("id") Long id, Model model) {
+        if (!model.containsAttribute("user")) {
+            model.addAttribute("user", userService.getById(id));
+        }
+        return "update-user-form";
     }
 
     @GetMapping("/current")

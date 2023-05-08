@@ -39,7 +39,7 @@ public class CarService {
             throw new ForbiddenActionException(ErrorMessage.FORBIDDEN);
         }
         if (!existingCar.getLicensePlate().equals(car.getLicensePlate())) {
-            checkCarNotExisting(car, car.getUser());
+            checkCarNotExisting(car, existingCar.getUser());
         }
 
         copyValues(existingCar, car);
@@ -72,7 +72,7 @@ public class CarService {
     }
 
     private void checkCarNotExisting(Car car, User user) {
-        if (carRepository.existsByLicensePlateAndUser(car.getLicensePlate(), user)) {
+        if (carRepository.existsByLicensePlateAndUser_Id(car.getLicensePlate(), user.getId())) {
             throw new ConflictException(ErrorMessage.ALREADY_EXISTS, "car", "license plate");
         }
     }
