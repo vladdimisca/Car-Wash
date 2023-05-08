@@ -59,7 +59,7 @@
       <a th:if="${updatable == true}" class="btn btn-primary" role="button" th:href="@{'/users/form/' + ${user.id}}">Update profile</a>
     </div>
 
-    <form class="col-md-3" sec:authorize="isAuthenticated()" th:action="@{'/users/' + ${user.id}}" th:method="DELETE" style="margin-left: -20px;">
+    <form class="col-md-3" sec:authorize="hasAnyRole('ADMIN', 'CLIENT')" th:action="@{'/users/' + ${user.id}}" th:method="DELETE" style="margin-left: -20px;">
       <button class="btn btn-danger" type="submit"
               onclick="if (!confirm('Are you sure?\nThis action is not reversible!')) return false;">
         Delete account

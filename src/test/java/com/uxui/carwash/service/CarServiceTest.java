@@ -51,7 +51,7 @@ class CarServiceTest {
         when(userService.getByEmail(USER_EMAIL)).thenReturn(user);
         when(jpaUserDetailsService.getCurrentUserPrincipal())
                 .thenReturn(new org.springframework.security.core.userdetails.User(USER_EMAIL, "pass", new HashSet<>()));
-        when(carRepository.existsByLicensePlateAndUser(car.getLicensePlate(), user)).thenReturn(false);
+        when(carRepository.existsByLicensePlateAndUser_Id(car.getLicensePlate(), user.getId())).thenReturn(false);
         when(carRepository.save(car)).thenReturn(savedCar);
 
         Car resultedCar = carService.create(car);
@@ -60,7 +60,7 @@ class CarServiceTest {
         assertEquals(savedCar.getId(), resultedCar.getId());
         assertEquals(savedCar.getLicensePlate(), resultedCar.getLicensePlate());
         verify(carRepository, times(1))
-                .existsByLicensePlateAndUser(car.getLicensePlate(), user);
+                .existsByLicensePlateAndUser_Id(car.getLicensePlate(), user.getId());
     }
 
     @Test
@@ -72,10 +72,10 @@ class CarServiceTest {
         when(userService.getByEmail(USER_EMAIL)).thenReturn(user);
         when(jpaUserDetailsService.getCurrentUserPrincipal()).thenReturn(
                 new org.springframework.security.core.userdetails.User(USER_EMAIL, "pass", new HashSet<>()));
-        when(carRepository.existsByLicensePlateAndUser(car.getLicensePlate(), user)).thenReturn(true);
+        when(carRepository.existsByLicensePlateAndUser_Id(car.getLicensePlate(), user.getId())).thenReturn(true);
 
         assertThrows(ConflictException.class, () -> carService.create(car));
-        verify(carRepository, times(1)).existsByLicensePlateAndUser(car.getLicensePlate(), user);
+        verify(carRepository, times(1)).existsByLicensePlateAndUser_Id(car.getLicensePlate(), user.getId());
         verify(carRepository, never()).save(car);
     }
 
@@ -164,7 +164,7 @@ class CarServiceTest {
         when(jpaUserDetailsService.hasAuthority("ROLE_ADMIN")).thenReturn(false);
         when(jpaUserDetailsService.getCurrentUserPrincipal()).thenReturn(
                 new org.springframework.security.core.userdetails.User(USER_EMAIL, "pass", new HashSet<>()));
-        when(carRepository.existsByLicensePlateAndUser(updatedCar.getLicensePlate(), updatedCar.getUser())).thenReturn(false);
+        when(carRepository.existsByLicensePlateAndUser_Id(updatedCar.getLicensePlate(), updatedCar.getUser().getId())).thenReturn(false);
         when(carRepository.save(car)).thenReturn(updatedCar);
 
         Car resultedCar = carService.update(ID, updatedCar);

@@ -37,6 +37,22 @@ public class EmployeeController {
         return "redirect:/employees";
     }
 
+    @PutMapping("/{id}")
+    public String update(@PathVariable("id") Long id, @Valid @ModelAttribute Employee employee, BindingResult bindingResult, RedirectAttributes attr) {
+        if (bindingResult.hasErrors()) {
+            return "update-employee-form";
+        }
+
+        try {
+            employeeService.update(id, employee);
+        } catch (AbstractApiException e) {
+            attr.addFlashAttribute("employee", employee);
+            attr.addFlashAttribute("api_error", e.getMessage());
+            return "redirect:/employees/form/" + id;
+        }
+        return "redirect:/employees";
+    }
+
     @GetMapping("/form")
     public String showEmployeeForm(Model model) {
         if (!model.containsAttribute("employee")) {
@@ -48,6 +64,14 @@ public class EmployeeController {
             model.addAttribute("employee", employee);
         }
         return "employee-form";
+    }
+
+    @GetMapping("/form/{id}")
+    public String showUpdateEmployeeForm(@PathVariable("id") Long id, Model model) {
+        if (!model.containsAttribute("employee")) {
+            model.addAttribute("employee", employeeService.getById(id));
+        }
+        return "update-employee-form";
     }
 
     @GetMapping

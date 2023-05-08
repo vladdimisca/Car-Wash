@@ -35,6 +35,22 @@ public class CarController {
         return "redirect:/cars";
     }
 
+    @PutMapping("/{id}")
+    public String update(@PathVariable("id") Long id, @Valid @ModelAttribute Car car, BindingResult bindingResult, RedirectAttributes attr) {
+        if (bindingResult.hasErrors()) {
+            return "update-car-form";
+        }
+
+        try {
+            carService.update(id, car);
+        } catch (AbstractApiException e) {
+            attr.addFlashAttribute("car", car);
+            attr.addFlashAttribute("api_error", e.getMessage());
+            return "redirect:/cars/form/" + id;
+        }
+        return "redirect:/cars";
+    }
+
     @GetMapping
     public String getAll(Model model) {
         model.addAttribute("cars", carService.getAll());
@@ -53,5 +69,13 @@ public class CarController {
             model.addAttribute("car", new Car());
         }
         return "car-form";
+    }
+
+    @GetMapping("/form/{id}")
+    public String updateCarForm(@PathVariable("id") Long id, Model model) {
+        if (!model.containsAttribute("car")) {
+            model.addAttribute("car", carService.getById(id));
+        }
+        return "update-car-form";
     }
 }

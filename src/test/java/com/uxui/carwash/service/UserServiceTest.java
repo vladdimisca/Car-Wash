@@ -157,8 +157,6 @@ class UserServiceTest {
         when(jpaUserDetailsService.hasAuthority("ROLE_ADMIN")).thenReturn(true);
         when(userRepository.existsByPhoneNumber(updatedUser.getUserDetails().getPhoneNumber())).thenReturn(false);
         when(userRepository.existsByEmail(updatedUser.getEmail())).thenReturn(false);
-        when(jpaUserDetailsService.getCurrentUserPrincipal()).thenReturn(
-                new org.springframework.security.core.userdetails.User(USER_EMAIL, "pass", new HashSet<>()));
         when(userRepository.save(user)).thenReturn(updatedUser);
 
         User resultedUser = userService.update(ID, updatedUser);
@@ -167,7 +165,7 @@ class UserServiceTest {
         assertEquals(updatedUser.getId(), resultedUser.getId());
         assertEquals(updatedUser.getEmail(), resultedUser.getEmail());
         verify(userRepository, times(1)).findById(ID);
-        verify(jpaUserDetailsService, times(1)).hasAuthority("ROLE_ADMIN");
+        verify(jpaUserDetailsService, times(2)).hasAuthority("ROLE_ADMIN");
         verify(userRepository, times(1)).save(user);
     }
 

@@ -45,10 +45,10 @@ public class UserService  {
         if (!existingUser.getUserDetails().getPhoneNumber().equals(user.getUserDetails().getPhoneNumber())) {
             checkPhoneNumberNotExisting(user);
         }
-        if (!existingUser.getEmail().equals(jpaUserDetailsService.getCurrentUserPrincipal().getUsername())) {
+        boolean isAdmin = jpaUserDetailsService.hasAuthority("ROLE_ADMIN");
+        if (!isAdmin && !existingUser.getEmail().equals(jpaUserDetailsService.getCurrentUserPrincipal().getUsername())) {
             throw new ForbiddenActionException(ErrorMessage.FORBIDDEN);
         }
-
         copyValues(existingUser, user);
 
         return userRepository.save(existingUser);
@@ -106,6 +106,8 @@ public class UserService  {
         to.getUserDetails().setGender(from.getUserDetails().getGender());
         to.getUserDetails().setPhoneNumber(from.getUserDetails().getPhoneNumber());
         to.setEmail(from.getEmail());
-        to.setPassword(bCryptPasswordEncoder.encode(from.getPassword()));
+        if (!to.getPassword().equals(from.getPassword())) {
+            to.setPassword(bCryptPasswordEncoder.encode(from.getPassword()));
+        }
     }
 }
