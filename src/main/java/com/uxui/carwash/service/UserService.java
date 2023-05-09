@@ -17,6 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -69,8 +70,8 @@ public class UserService  {
                 new ResourceNotFoundException(ErrorMessage.RESOURCE_NOT_FOUND, "user", email));
     }
 
-    public Page<User> getAll(Pageable pageable) {
-        return userRepository.findAll(pageable);
+    public List<User> getAll() {
+        return userRepository.findAll();
     }
 
     public void deleteById(Long id) {

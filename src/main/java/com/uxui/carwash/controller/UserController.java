@@ -54,7 +54,15 @@ public class UserController {
             attr.addFlashAttribute("api_error", e.getMessage());
             return "redirect:/users/form/" + id;
         }
-        return "redirect:/users/current";
+        return "redirect:/users/" + id;
+    }
+
+    @GetMapping
+    public String getAll(Model model) {
+        if (!model.containsAttribute("users")) {
+            model.addAttribute("users", userService.getAll());
+        }
+        return "users";
     }
 
     @GetMapping("/form")
@@ -86,7 +94,12 @@ public class UserController {
     public String getCurrentUser(Model model) {
         User user = userService.getByEmail(jpaUserDetailsService.getCurrentUserPrincipal().getUsername());
         model.addAttribute("user", user);
-        model.addAttribute("updatable", true);
+        return "user-info";
+    }
+
+    @GetMapping("/{id}")
+    public String getById(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("user", userService.getById(id));
         return "user-info";
     }
 }

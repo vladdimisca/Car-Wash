@@ -14,7 +14,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.HashSet;
@@ -134,15 +133,13 @@ class UserServiceTest {
     @Test
     @DisplayName("Get all users - success")
     void getAll_success() {
-        Pageable pageable = PageRequest.of(1, 5, Sort.by("email").descending());
 
-        when(userRepository.findAll(pageable)).thenReturn(new PageImpl<>(List.of(getSavedUser())));
+        when(userRepository.findAll()).thenReturn(List.of(getSavedUser()));
 
-        Page<User> usersPage = userService.getAll(pageable);
+        List<User> users = userService.getAll();
 
-        assertNotNull(usersPage);
-        assertEquals(1, usersPage.getTotalElements());
-        verify(userRepository, times(1)).findAll(pageable);
+        assertEquals(1, users.size());
+        verify(userRepository, times(1)).findAll();
     }
 
     @Test
