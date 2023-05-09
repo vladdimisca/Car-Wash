@@ -38,28 +38,29 @@
     </div>
 
     <div class="row col-md-8">
-      <div class="col-md-5">
+      <div class="col-md-4">
         <label>First name:</label>
         <p class="form-control" th:text="${user.userDetails.firstName}"></p>
       </div>
 
-      <div class="col-md-5">
+      <div class="col-md-4">
         <label>Last name:</label>
         <p class="form-control" th:text="${user.userDetails.lastName}"></p>
+      </div>
+
+      <div class="col-md-4">
+        <label>Role:</label>
+        <p class="form-control" th:text="${user.authorities[0].role.split('ROLE_')[1]}"></p>
       </div>
     </div>
   </div>
 
-  <div class="row col-md-6 mt-2">
-    <div sec:authorize="hasRole('CLIENT')" class="col-md-3">
+  <div sec:authorize="hasAnyRole('ADMIN', 'CLIENT')" class="row col-md-6 mt-2">
+    <div class="col-md-3">
       <a class="btn btn-primary" role="button" th:href="@{'/users/form/' + ${user.id}}" >Update profile</a>
     </div>
 
-    <div sec:authorize="hasRole('ADMIN')" class="col-md-3">
-      <a th:if="${updatable == true}" class="btn btn-primary" role="button" th:href="@{'/users/form/' + ${user.id}}">Update profile</a>
-    </div>
-
-    <form class="col-md-3" sec:authorize="hasAnyRole('ADMIN', 'CLIENT')" th:action="@{'/users/' + ${user.id}}" th:method="DELETE" style="margin-left: -20px;">
+    <form class="col-md-3" th:action="@{'/users/' + ${user.id}}" th:method="DELETE" style="margin-left: -20px;">
       <button class="btn btn-danger" type="submit"
               onclick="if (!confirm('Are you sure?\nThis action is not reversible!')) return false;">
         Delete account

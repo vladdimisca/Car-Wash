@@ -21,7 +21,7 @@
             if (chosenCar != null) {
                 const serviceSelect = $("#job");
                 serviceSelect.attr("disabled", false);
-                const car = cars.filter(car => car.id === parseInt(chosenCar))[0]
+                const car = cars.filter(car => car.id === parseInt(chosenCar))[0];
 
                 for (let service of services) {
                     let option = $(`#service${service.id}`);
