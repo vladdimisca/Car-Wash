@@ -43,13 +43,5 @@
         </tr>
     </table>
 </div>
-
-<div sec:authorize="hasAnyRole('CLIENT')" class="container mt-3">
-    <div class="row">
-        <div class="col-md-6">
-            <a class="btn btn-primary" role="button" th:href="@{'/cars/form'}" th:method="GET">Add car</a>
-        </div>
-    </div>
-</div>
 </body>
 </html>
