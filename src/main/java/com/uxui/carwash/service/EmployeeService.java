@@ -1,7 +1,6 @@
 package com.uxui.carwash.service;
 
 import com.uxui.carwash.error.ErrorMessage;
-import com.uxui.carwash.error.exception.ConflictException;
 import com.uxui.carwash.error.exception.ResourceNotFoundException;
 import com.uxui.carwash.model.Employee;
 import com.uxui.carwash.model.security.User;
@@ -45,9 +44,11 @@ public class EmployeeService {
         return employeeRepository.findAll(Sort.by("user.userDetails.lastName").ascending());
     }
 
+    @Transactional
     public void deleteById(Long id) {
         Employee employee = getById(id);
         employeeRepository.delete(employee);
+        userService.deleteById(employee.getUser().getId());
     }
 
 

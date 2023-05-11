@@ -73,11 +73,11 @@
     </div>
 
     <div class="row col-md-6 mt-2">
-        <div sec:authorize="hasRole('CLIENT')" class="col-md-2">
+        <div sec:authorize="hasAnyRole('CLIENT', 'ADMIN')" class="col-md-2">
             <a class="btn btn-primary" role="button" th:href="@{'/appointments/form/' + ${appointment.id}}" >Update</a>
         </div>
 
-        <form class="col-md-2" sec:authorize="hasRole('CLIENT')" th:action="@{'/appointments/' + ${appointment.id}}" th:method="DELETE" style="margin-left: -20px;">
+        <form class="col-md-2" sec:authorize="hasAnyRole('CLIENT', 'ADMIN')" th:action="@{'/appointments/' + ${appointment.id}}" th:method="DELETE" style="margin-left: -20px;">
             <button class="btn btn-danger" type="submit"
                     onclick="if (!confirm('Are you sure?\nThis action is not reversible!')) return false;">
                 Delete

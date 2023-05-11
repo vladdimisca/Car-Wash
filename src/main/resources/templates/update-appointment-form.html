@@ -37,6 +37,10 @@
                 for (let service of services) {
                     let option = $(`#service${service.id}`);
                     option.attr('hidden', service.carType !== car.type);
+
+                    if (option.is(":selected") === true && option.is(":disabled") !== true && service.carType !== car.type) {
+                        serviceSelect.val(null).change();
+                    }
                 }
             }
         }

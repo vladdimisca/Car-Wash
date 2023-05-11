@@ -49,11 +49,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // employees
                 .antMatchers("/employees/**").hasAnyRole("ADMIN")
                 // appointments
-                .antMatchers("/appointments/form/**").hasAnyRole("CLIENT")
+                .antMatchers("/appointments/form").hasAnyRole("CLIENT")
+                .antMatchers("/appointments/form/**").hasAnyRole("CLIENT", "ADMIN")
                 .antMatchers(HttpMethod.GET, "/appointments", "/appointments/*").hasAnyRole("CLIENT", "ADMIN", "EMPLOYEE")
                 .antMatchers(HttpMethod.POST, "/appointments").hasAnyRole("CLIENT")
                 .antMatchers(HttpMethod.DELETE, "/appointments/*").hasAnyRole("CLIENT", "ADMIN")
-                .antMatchers(HttpMethod.PUT, "/appointments/*").hasAnyRole("CLIENT")
+                .antMatchers(HttpMethod.PUT, "/appointments/*").hasAnyRole("CLIENT", "ADMIN")
                 // users
                 .antMatchers(HttpMethod.GET, "/users/form").permitAll()
                 .antMatchers(HttpMethod.POST, "/users").permitAll()

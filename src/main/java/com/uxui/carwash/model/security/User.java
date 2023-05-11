@@ -2,6 +2,7 @@ package com.uxui.carwash.model.security;
 
 import com.uxui.carwash.model.Appointment;
 import com.uxui.carwash.model.Car;
+import com.uxui.carwash.model.Employee;
 import com.uxui.carwash.model.UserDetails;
 import lombok.*;
 
@@ -56,6 +57,9 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
     private Set<Authority> authorities;
+
+    @OneToOne(mappedBy = "user", fetch = FetchType.EAGER, cascade = {CascadeType.REMOVE})
+    private Employee employee;
 
     @Builder.Default
     private Boolean enabled = true;
