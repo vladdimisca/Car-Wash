@@ -2,6 +2,7 @@ package com.uxui.carwash.service;
 
 import com.uxui.carwash.error.exception.ResourceNotFoundException;
 import com.uxui.carwash.model.Employee;
+import com.uxui.carwash.model.security.User;
 import com.uxui.carwash.repository.EmployeeRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,6 +22,9 @@ import static org.mockito.Mockito.*;
 class EmployeeServiceTest {
 
     private static final Long ID = 1L;
+
+    @Mock
+    private UserService userService;
 
     @Mock
     private EmployeeRepository employeeRepository;
@@ -81,8 +85,12 @@ class EmployeeServiceTest {
     }
 
     private Employee getSavedEmployee() {
+        User user = new User();
+        user.setId(1L);
+
         Employee savedEmployee = getEmployee();
         savedEmployee.setId(ID);
+        savedEmployee.setUser(user);
 
         return savedEmployee;
     }

@@ -154,8 +154,6 @@ class AppointmentServiceTest {
 
         when(appointmentRepository.findById(ID)).thenReturn(Optional.of(appointment));
         when(jpaUserDetailsService.hasAuthority("ROLE_ADMIN")).thenReturn(true);
-        when(jpaUserDetailsService.getCurrentUserPrincipal()).thenReturn(
-                new org.springframework.security.core.userdetails.User(USER_EMAIL, "pass", new HashSet<>()));
         when(jobService.getById(JOB_ID)).thenReturn(updatedAppointment.getJob());
         when(carService.getById(CAR_ID)).thenReturn(updatedAppointment.getCar());
         when(employeeService.getAll()).thenReturn(List.of(getEmployee()));

@@ -10,8 +10,6 @@ import com.uxui.carwash.repository.security.AuthorityRepository;
 import com.uxui.carwash.repository.security.UserRepository;
 import com.uxui.carwash.service.security.JpaUserDetailsService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;

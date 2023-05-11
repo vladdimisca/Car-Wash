@@ -55,7 +55,8 @@ public class AppointmentService {
 
     public Appointment update(Long id, Appointment appointment) {
         Appointment existingAppointment = getById(id);
-        if (!existingAppointment.getUser().getEmail().equals(jpaUserDetailsService.getCurrentUserPrincipal().getUsername())) {
+        boolean isAdmin = jpaUserDetailsService.hasAuthority("ROLE_ADMIN");
+        if (!isAdmin && !existingAppointment.getUser().getEmail().equals(jpaUserDetailsService.getCurrentUserPrincipal().getUsername())) {
             throw new ForbiddenActionException(ErrorMessage.FORBIDDEN);
         }
 

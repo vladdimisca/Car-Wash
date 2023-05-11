@@ -52,6 +52,8 @@ public class AppointmentController {
         if (bindingResult.hasErrors()) {
             model.addAttribute("cars", carService.getAll());
             model.addAttribute("jobs", jobService.getAll());
+            model.addAttribute("carTypes", getCarTypes(carService.getAll()));
+            model.addAttribute("jobsCarTypes", getJobsCarTypes(jobService.getAll()));
             return "update-appointment-form";
         }
 

@@ -102,4 +102,10 @@ public class UserController {
         model.addAttribute("user", userService.getById(id));
         return "user-info";
     }
+
+    @DeleteMapping("/{id}")
+    public String deleteById(@PathVariable("id") Long id) {
+        userService.deleteById(id);
+        return "redirect:/users";
+    }
 }
