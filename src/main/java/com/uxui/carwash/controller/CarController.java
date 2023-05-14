@@ -78,4 +78,10 @@ public class CarController {
         }
         return "update-car-form";
     }
+
+    @DeleteMapping("/{id}")
+    public String deleteById(@PathVariable("id") Long id) {
+        carService.deleteById(id);
+        return "redirect:/cars";
+    }
 }
